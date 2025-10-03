@@ -48,15 +48,17 @@ export async function POST(request) {
       ]
     })
     const newStore = await prisma.store.create({
-      userId, name, description,
-      username: username.toLowerCase(),
-      email,
-      address,
-      contact,
-      logo: optimizedImage
+      data: {
+        userId, name, description,
+        username: username.toLowerCase(),
+        email,
+        address,
+        contact,
+        logo: optimizedImage
+      }
     })
     //link store to user
-    await userId.prisma.update({
+    await prisma.user.update({
       where: { id: userId },
       data: { store: { connect: { id: newStore.id } } }
     })

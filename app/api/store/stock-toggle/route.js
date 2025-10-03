@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import authSeller from "@/middlewares/authSeller";
 import { getAuth } from "@clerk/nextjs/server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 
 // Toggle stock of a product
@@ -10,7 +10,7 @@ export async function POST(request) {
         const { userId } = getAuth(request);
         const { productId } = await request.json();
         if (!productId) {
-            return NextRequest.json({ error: "missing details: productId" }, { status: 400 });
+            return NextResponse.json({ error: "missing details: productId" }, { status: 400 });
         }
         const storeId = await authSeller(userId);
         if (!storeId) {
